@@ -3,73 +3,191 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LevelUp OS</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Anoxx Realm</title>
+  <style>
+    :root{--bg:#07090f;--panel:#101723;--panel2:#151e2d;--text:#eef3fb;--muted:#9aa7b8;--line:#233043;--accent:#b58cff;--accent2:#7cf7c3;--danger:#ff6b7a;--gold:#ffd86b}
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:radial-gradient(circle at top,#192236 0%,var(--bg) 52%);color:var(--text)}
+    a{text-decoration:none;color:inherit} button,input,textarea,select{font:inherit}
+    .wrap{max-width:1400px;margin:0 auto;padding:18px} .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0 18px}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:.04em}.sigil{width:40px;height:40px;border-radius:14px;background:linear-gradient(135deg,var(--accent),#8ad8ff);display:grid;place-items:center;color:#09101a;font-weight:1000}
+    .nav{display:flex;gap:10px;flex-wrap:wrap}.nav a{padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.03);color:var(--muted)}
+    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:16px;align-items:stretch}
+    .card{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:24px;padding:18px;box-shadow:0 26px 80px rgba(0,0,0,.3)}
+    .eyebrow{display:inline-flex;gap:8px;align-items:center;padding:9px 12px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.03);color:var(--muted);font-size:13px}
+    h1{font-size:clamp(42px,7vw,82px);line-height:.93;margin:14px 0 10px;letter-spacing:-.05em}.grad{background:linear-gradient(90deg,#fff,#cfa7ff 45%,#7cf7c3 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .sub{max-width:760px;color:var(--muted);font-size:17px;line-height:1.75}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}.btn{padding:14px 18px;border-radius:16px;font-weight:800;border:1px solid transparent;display:inline-flex;align-items:center;justify-content:center}
+    .primary{background:linear-gradient(135deg,var(--accent),#8ad8ff);color:#09101a}.secondary{border-color:var(--line);background:rgba(255,255,255,.03);color:var(--text)}
+    .profilebox{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:center}
+    .avatar{width:120px;height:120px;border-radius:28px;background:linear-gradient(135deg,#7cf7c3,#b58cff);overflow:hidden;display:grid;place-items:center;color:#09101a;font-weight:1000;font-size:36px;position:relative}
+    .avatar img{width:100%;height:100%;object-fit:cover;display:none}.avatar input{position:absolute;inset:0;opacity:0;cursor:pointer}
+    .statrow{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.mini{padding:14px;border-radius:18px;background:rgba(255,255,255,.03);border:1px solid var(--line)}.mini .k{color:var(--muted);font-size:12px}.mini .v{font-size:24px;font-weight:900;margin-top:6px}
+    .bar{height:10px;border-radius:999px;background:#0c1119;border:1px solid var(--line);overflow:hidden;margin-top:10px}.bar span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent2),#8ad8ff)}
+    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:16px}
+    .section{margin-top:16px}.section h2{margin:0 0 12px;font-size:28px}
+    .boss{min-height:240px;position:relative;overflow:hidden}.boss .tag{display:inline-block;padding:7px 10px;border-radius:999px;background:#0d131c;border:1px solid var(--line);color:var(--muted);font-size:12px}.boss h3{margin:12px 0 8px;font-size:22px}.boss p{margin:0;color:var(--muted);line-height:1.6}.boss .score{font-size:34px;font-weight:1000;margin-top:16px}.boss::after{content:'';position:absolute;inset:auto -40px -50px auto;width:180px;height:180px;border-radius:50%;filter:blur(10px);opacity:.25;background:radial-gradient(circle,#fff,transparent 65%)}
+    .boss.str{background:linear-gradient(180deg,#30171f,#17111a)} .boss.int{background:linear-gradient(180deg,#172433,#111722)} .boss.phi{background:linear-gradient(180deg,#1d1730,#12151e)}
+    .shoplist{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.item{padding:16px;border-radius:18px;background:rgba(255,255,255,.03);border:1px solid var(--line)}.item .price{margin-top:10px;font-weight:900;color:var(--gold)}
+    .questbox{display:grid;grid-template-columns:1.1fr .9fr;gap:16px}.questadd{display:flex;gap:10px;flex-wrap:wrap}.questadd input,.questadd select,.questadd textarea{flex:1;min-width:140px;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:#0c1119;color:var(--text)}.questadd textarea{min-height:44px;resize:vertical}.questadd button{padding:12px 16px;border-radius:14px;border:0;background:linear-gradient(135deg,var(--accent),#8ad8ff);font-weight:900;color:#09101a}
+    ul{padding-left:18px;margin:12px 0 0} li{margin:10px 0;color:var(--muted)}
+    .leader{display:grid;gap:10px}.row{display:grid;grid-template-columns:40px 1fr auto;gap:10px;align-items:center;padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.03);border:1px solid var(--line)}
+    .rank{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:#0d131c;border:1px solid var(--line);font-weight:900}.r1{color:var(--gold)}.r2{color:#d7dce6}.r3{color:#d9a86c}
+    .creator{display:grid;grid-template-columns:1fr 1fr;gap:16px}.socials{display:flex;gap:10px;flex-wrap:wrap}.socials a{padding:10px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--muted)}
+    .admin{display:none}.admin.on{display:block}.note{color:var(--muted);font-size:13px;line-height:1.6}
+    .chars{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-height:420px;overflow:auto;padding-right:4px}.char{padding:12px;border-radius:16px;background:rgba(255,255,255,.03);border:1px solid var(--line)}.char b{display:block;margin-bottom:6px}.badge{display:inline-block;padding:5px 8px;border-radius:999px;background:#0d131c;border:1px solid var(--line);font-size:12px;color:var(--muted)}
+    footer{padding:18px 0 6px;color:var(--muted);font-size:13px}
+    @media (max-width: 1100px){.hero,.questbox,.creator{grid-template-columns:1fr}.grid3,.grid2,.shoplist,.chars{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width: 720px){.grid3,.grid2,.shoplist,.chars,.statrow{grid-template-columns:1fr}.profilebox{grid-template-columns:1fr}.avatar{width:100%;height:220px;border-radius:22px}.topbar{flex-direction:column;align-items:flex-start}}
+  </style>
 </head>
 <body>
-  <div class="app">
-    <section class="hero">
-      <p class="pill">iPhone-first gamification website</p>
-      <h1>Level up your life like a game.</h1>
-      <p class="subtitle">
-        Track energy, quests, streaks, boss fights, and character growth in one premium dashboard.
-      </p>
-      <div class="actions">
-        <a href="#dashboard" class="btn primary">Open Dashboard</a>
-        <a href="#features" class="btn secondary">See Features</a>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand"><div class="sigil">A</div><div>Anoxx Realm</div></div>
+      <div class="nav">
+        <a href="#bosses">Bosses</a><a href="#quests">Quests</a><a href="#shop">Shop</a><a href="#chars">200 Characters</a><a href="#leaderboard">Leaderboard</a><a href="#creator">Creator</a><a href="#admin">Dev Mode</a>
       </div>
-    </section>
+    </div>
 
-    <section class="dashboard" id="dashboard">
-      <div class="card profile">
-        <div class="row">
+    <section class="hero card">
+      <div>
+        <div class="eyebrow">Anime • games • novels • webtoons • RPG life system</div>
+        <h1><span class="grad">Build your life</span> into a boss-rush universe.</h1>
+        <p class="sub">Every level unlocks new boss fights. Strength, smartness, and philosophy shape your progress. Earn coins from quests, recover streaks in the shop, upload your avatar, add custom quests, and climb the leaderboard with AI scoring.</p>
+        <div class="actions">
+          <a class="btn primary" href="#quests">Start Questing</a>
+          <a class="btn secondary" href="#chars">Explore Characters</a>
+        </div>
+      </div>
+      <div class="card" style="background:linear-gradient(180deg,#171026,#0e121a)">
+        <div class="profilebox">
+          <label class="avatar" id="avatarBox">
+            <img id="avatarImg" alt="avatar" />
+            <span id="avatarTxt">A</span>
+            <input id="avatarInput" type="file" accept="image/*" />
+          </label>
           <div>
-            <h2>Player Profile</h2>
-            <p>Level 18 • Rogue Builder</p>
+            <div class="eyebrow">Your Avatar • editable</div>
+            <h2 style="margin:10px 0 6px">Player: Anoxx</h2>
+            <div class="muted">Level 100 • Rank S • Coins 1,250</div>
+            <div style="height:10px"></div>
+            <div class="statrow">
+              <div class="mini"><div class="k">Strength</div><div class="v">88</div><div class="bar"><span style="width:88%"></span></div></div>
+              <div class="mini"><div class="k">Intelligence</div><div class="v">91</div><div class="bar"><span style="width:91%;background:linear-gradient(90deg,#b58cff,#8ad8ff)"></span></div></div>
+              <div class="mini"><div class="k">Personality</div><div class="v">84</div><div class="bar"><span style="width:84%;background:linear-gradient(90deg,#ffd86b,#ff8a8a)"></span></div></div>
+              <div class="mini"><div class="k">Coins</div><div class="v" id="coins">1250</div><div class="bar"><span style="width:72%;background:linear-gradient(90deg,#7cf7c3,#ffd86b)"></span></div></div>
+            </div>
           </div>
-          <div class="xp">XP 12,480</div>
-        </div>
-        <div class="bar"><span style="width:74%"></span></div>
-      </div>
-
-      <div class="grid">
-        <div class="card">
-          <h3>Daily Quests</h3>
-          <ul>
-            <li>Morning routine</li>
-            <li>Deep work</li>
-            <li>Workout</li>
-            <li>Journal</li>
-          </ul>
-        </div>
-
-        <div class="card boss">
-          <h3>Boss Fight</h3>
-          <p>Finish portfolio redesign</p>
-          <div class="bar danger"><span style="width:58%"></span></div>
-        </div>
-
-        <div class="card">
-          <h3>Energy</h3>
-          <p>Sleep, focus, mood, recovery</p>
-        </div>
-
-        <div class="card">
-          <h3>Stats</h3>
-          <p>Discipline 91 • Focus 82 • Mood 76</p>
         </div>
       </div>
     </section>
 
-    <section class="features" id="features">
-      <div class="feature">Character Dashboard</div>
-      <div class="feature">Quests & Boss Fights</div>
-      <div class="feature">Energy Management</div>
-      <div class="feature">Reports & Streaks</div>
-      <div class="feature">Items Shop</div>
-      <div class="feature">Save Progress</div>
+    <section class="section" id="bosses">
+      <h2>Three Boss Sections</h2>
+      <div class="grid3">
+        <div class="card boss str"><span class="tag">Strength Boss</span><h3>The Iron Trial</h3><p>Defeat physical limits through training, stamina, and discipline.</p><div class="score">Rank A+</div><div class="muted">Next unlock at Level 110</div></div>
+        <div class="card boss int"><span class="tag">Smartness Boss</span><h3>The Mind Labyrinth</h3><p>Beat logic, memory, reading, and decision-making challenges.</p><div class="score">Rank S</div><div class="muted">Next unlock at Level 120</div></div>
+        <div class="card boss phi"><span class="tag">Philosophy Boss</span><h3>The Soul Mirror</h3><p>Face values, ego, resilience, and personality growth.</p><div class="score">Rank SS</div><div class="muted">Next unlock at Level 130</div></div>
+      </div>
     </section>
+
+    <section class="section questbox" id="quests">
+      <div class="card">
+        <h2>Quests + Coins</h2>
+        <p class="note">Add a quest, complete it, and earn coins. Coins can recover streaks, unlock boosts, or buy items.</p>
+        <div class="questadd">
+          <input id="qname" placeholder="Quest name" />
+          <select id="qtype"><option>Strength</option><option>Intelligence</option><option>Personality</option><option>Daily</option></select>
+          <input id="qcoins" type="number" value="25" min="1" placeholder="Coins" />
+          <button id="addQuest">Add Quest</button>
+        </div>
+        <ul id="questList">
+          <li>Push-ups 50 reps — +25 coins</li>
+          <li>Read 20 pages — +30 coins</li>
+          <li>Journal 5 minutes — +15 coins</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>AI Ranking Idea</h2>
+        <p class="note">Workout input can ask reps and sets to grant strength points. Book input can ask title and summary to grant intelligence and personality points.</p>
+        <div class="mini" style="margin-top:14px"><div class="k">Example Prompt</div><div class="v" style="font-size:16px;line-height:1.5;font-weight:700">How many reps and sets did you do? What book did you read?</div></div>
+        <div class="mini" style="margin-top:12px"><div class="k">Result</div><div class="v" style="font-size:16px;line-height:1.5;font-weight:700">+8 Strength, +4 Intelligence, +3 Personality</div></div>
+      </div>
+    </section>
+
+    <section class="section" id="shop">
+      <h2>Shop</h2>
+      <div class="shoplist">
+        <div class="item"><b>Streak Recovery</b><div class="note">Restore one broken streak.</div><div class="price">120 coins</div></div>
+        <div class="item"><b>Energy Potion</b><div class="note">Refill daily focus and motivation.</div><div class="price">80 coins</div></div>
+        <div class="item"><b>XP Boost</b><div class="note">Double XP for one day.</div><div class="price">150 coins</div></div>
+      </div>
+    </section>
+
+    <section class="section" id="chars">
+      <h2>200 Characters</h2>
+      <p class="note">This is a sample grid and can be expanded to 200 entries from anime, games, novels, and webtoons. Each character represents strength, intelligence, philosophy, or personality and gets placed by level.</p>
+      <div class="chars" id="charGrid"></div>
+    </section>
+
+    <section class="section" id="leaderboard">
+      <h2>Leaderboard</h2>
+      <div class="leader">
+        <div class="row"><div class="rank r1">1</div><div><b>Strength</b><div class="muted">Top physical rank</div></div><div>999 pts</div></div>
+        <div class="row"><div class="rank r2">2</div><div><b>Intelligence</b><div class="muted">Top smart rank</div></div><div>970 pts</div></div>
+        <div class="row"><div class="rank r3">3</div><div><b>Personality</b><div class="muted">Top character rank</div></div><div>945 pts</div></div>
+      </div>
+    </section>
+
+    <section class="section creator" id="creator">
+      <div class="card">
+        <h2>Creator Profiles</h2>
+        <p class="note">Your social links live here for visitors. Replace the placeholders with your real links or contact details.</p>
+        <div class="socials">
+          <a href="#">Instagram: anoxx.24</a>
+          <a href="#">WhatsApp: 9326172579</a>
+          <a href="#">Portfolio</a>
+          <a href="#">YouTube</a>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Developer Mode</h2>
+        <p class="note">Only you can access this mode. It can later be linked to a secure login and database panel. For now it reveals creator tools, shop editing ideas, and leaderboard control.</p>
+        <button id="devToggle" class="btn secondary" style="margin-top:8px">Unlock Dev Mode</button>
+        <div class="admin" id="admin">
+          <div class="mini" style="margin-top:14px"><div class="k">Dev Tools</div><div class="v" style="font-size:16px">Add items • edit characters • moderate quests • review users</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section card">
+      <h2>What this site now includes</h2>
+      <p class="note">A clean anime-gamification homepage with avatar upload, coins, quests, three boss sections, shop, leaderboard, 200-character expansion area, creator profile section, AI ranking idea, and developer mode placeholder — all inside one simple file so it actually works on GitHub Pages.</p>
+    </section>
+
+    <footer>Anoxx Realm • GitHub Pages ready • mobile first</footer>
   </div>
-  <script src="script.js"></script>
+
+  <script>
+    const chars = [
+      'Goku | Anime | Power', 'Doom Slayer | Game | Strength', 'Fang Yuan | Novel | Intelligence', 'Master Chief | Game | Discipline',
+      'Lelouch | Anime | Strategy', 'Saitama | Anime | Strength', 'Ayanokoji | Anime | Intelligence', 'Gojo | Anime | Presence',
+      'Naruto | Anime | Persistence', 'Geralt | Game/Novel | Resolve', 'Itadori | Anime | Courage', 'Eren | Anime | Will'
+    ];
+    const grid = document.getElementById('charGrid');
+    chars.forEach((c,i)=>{ const [name,src,type]=c.split('|').map(s=>s.trim()); const d=document.createElement('div'); d.className='char'; d.innerHTML=`<b>${name}</b><div class='badge'>${src}</div><div class='note' style='margin-top:8px'>${type}</div><div class='muted' style='margin-top:8px'>Level ${200-i*3} • ${['Strength','Intelligence','Personality'][i%3]}</div>`; grid.appendChild(d); });
+    document.getElementById('addQuest').onclick = () => {
+      const n = document.getElementById('qname').value.trim() || 'Custom Quest';
+      const t = document.getElementById('qtype').value;
+      const c = document.getElementById('qcoins').value || 25;
+      const li = document.createElement('li');
+      li.textContent = `${n} — ${t} — +${c} coins`;
+      document.getElementById('questList').prepend(li);
+      const coins = document.getElementById('coins'); coins.textContent = String(Number(coins.textContent)+Number(c));
+      document.getElementById('qname').value='';
+    };
+    const avatarInput = document.getElementById('avatarInput');
+    avatarInput.onchange = e => { const f = e.target.files[0]; if(!f) return; const u = URL.createObjectURL(f); const img = document.getElementById('avatarImg'); img.src = u; img.style.display='block'; document.getElementById('avatarTxt').style.display='none'; };
+    document.getElementById('devToggle').onclick = ()=> document.getElementById('admin').classList.toggle('on');
+  </script>
 </body>
 </html>
